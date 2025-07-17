@@ -572,10 +572,64 @@ export default tseslint.config (
 )
 ```
 
+### 部分会提示找不到 Error: Cannot find module 'eslint-config-prettier'
+ 运行eslint 会提示：node_modules/eslint-plugin-prettier/recommended.js 找不到 Error: Cannot find module 'eslint-config-prettier'
+
+ 单独 安装 `eslint-plugin-prettier`
+```sh
+npm i eslint-plugin-prettier@10.1.5 --save-dev 
+```
+
 
 > 注意 有时候配置完也不生效，就需要整个vscode退出再打开才生效
 
 # husky
+## 安装husky
+```sh
+#添加 husky 注意只安装4.0版本 , 5.0实现方式不一样
+npm install husky@4.0 --save-dev
 
+```
+修改package.json
+```sh
+#在package.json 根节点添加入口， npm test为自己定义的命令
+#这样在每次git commit -am 'xx' 的时候会触发pre-commit 对应的命令
+"husky": {
+  "hooks": {
+    "pre-commit": "npm test"
+  }
+}, 
+```
+
+
+## 安装commitizen
+commitizen 规范提交的内容
+```sh
+#安装commitizen
+npm install commitizen -g
+#初始化 提交模版
+commitizen init cz-conventional-changelog --save-dev --save-exact
+#开始提交,根据提示框选择
+git cz  
+```
+
+## 安装conventional-changelog-cli
+生成最新的提交记录文档
+```sh
+#安装
+npm install -S conventional-changelog-cli
+```
+修改 在package.json 根节点添加入口
+```sh
+  "scripts": {
+    "genlog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+  },
+```
+测试
+```sh
+#执行 生成CHANGELOG.md
+npm run genlog
+```
 
 # 参考代码 
+https://github.com/mjsong07/vue3_demo/tree/main/prettier_eslint_husky
